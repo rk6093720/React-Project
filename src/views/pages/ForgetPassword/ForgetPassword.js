@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -12,35 +12,13 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-  CToast,
-  CToastBody,
-  CToaster,
-  CToastHeader,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cibFacebook, cibGoogle, cilLockLocked, cilUser } from '@coreui/icons'
+import {  cilUser } from '@coreui/icons'
 import { useDispatch } from 'react-redux'
-import { LoginUser } from '../../../Redux/Auth/action'
 import { useToast } from '@chakra-ui/react'
-
 const ForgetPassword = () => {
-  //   Positive**–** Successful login with valid credentials.
-  // – Login with a valid email and case-insensitive password.
-  // – Successful login with a remembered email and password fields.
-  // – Successful login after password reset.
-  // – Login from multiple devices simultaneously.
-  // – Successful login using a social media account integration.
-  // – Login with a valid username and password within specified character limits.
-  // – Successful login with special characters in the password.
-
-  // Negative**–** Unsuccessful login with an invalid username and password.
-  // – Login with a blank username and password.Unsuccessful login with an expired account.
-  // – Login attempt with an account locked due to multiple unsuccessful tries.
-  // – Login with a valid username and an incorrect case-sensitive password.
-  // – Unsuccessful login with an account under review or pending approval.
-  // – Login attempt with a deactivated or terminated user account.
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [flag, setFlag] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -54,16 +32,13 @@ const ForgetPassword = () => {
       return
     }
     const payload = {
-      email,
-      password,
+      email
     }
-    dispatch(LoginUser(payload))
+    dispatch(forgetpassword(payload))
       .then((r) => {
-        navigate('/dashboard')
         localStorage.setItem('rememberedEmail', email)
-        localStorage.setItem('rememberedPassword', password)
         toast({
-          title: 'Login Successfully.',
+          title: 'ForgetPassword Successfully.',
           description: 'Account Created',
           status: 'success',
           duration: 2000,
@@ -74,7 +49,7 @@ const ForgetPassword = () => {
       .catch((e) => {
         console.log(e)
         toast({
-          title: 'Login Successfully.',
+          title: 'forget unsuccessfully.',
           description: "We've created your account for you.",
           status: 'danger',
           duration: 3000,
@@ -85,15 +60,12 @@ const ForgetPassword = () => {
   }
   useEffect(() => {
     const storedEmail = localStorage.getItem('rememberedEmail')
-    const storedPassword = localStorage.getItem('rememberedPassword')
-
-    if (storedEmail && storedPassword) {
+    if (storedEmail ) {
       setEmail(storedEmail)
-      setPassword(storedPassword)
     }
   }, [])
   return (
-    <React.Fragment className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+    <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={8}>
@@ -125,7 +97,7 @@ const ForgetPassword = () => {
                       />
                     </CInputGroup>
                     <CRow>
-                      <CCol xs={6} >
+                      <CCol xs={6} className='d-grid gap-2 col-6 mx-auto'>
                         <CButton type="submit" color="primary" className="px-4">
                           Reset Password
                         </CButton>
@@ -138,7 +110,7 @@ const ForgetPassword = () => {
           </CCol>
         </CRow>
       </CContainer>
-    </React.Fragment>
+    </div>
   )
 }
 
