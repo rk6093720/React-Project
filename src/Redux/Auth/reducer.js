@@ -9,7 +9,9 @@ const InitialState = {
   status: false,
   isBlock: false,
   failedAttempt: 0,
-  profileData: [],
+  profileData: appData('profile') || [],
+  changepassword: appData('changepassword') || [],
+  changeEmail: appData('changeEmail') || [],
 }
 const reducer = (state = InitialState, action) => {
   const { type, payload } = action
@@ -19,6 +21,7 @@ const reducer = (state = InitialState, action) => {
         ...state,
       }
     case types.LOGIN_SUCCESS:
+      console.log(payload)
       let newLogin = saveData('auth', payload)
       return {
         ...state,
@@ -57,11 +60,120 @@ const reducer = (state = InitialState, action) => {
         isError: true,
       }
     case types.PROFILE_SUCCESS:
+      // console.log(payload)
       return {
         ...state,
         isLoading: false,
         isError: false,
         profileData: saveData('profile', payload),
+      }
+    case types.PROFILE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      }
+    case types.EDIT_PROFILE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      }
+    case types.EDIT_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        profileData: state.profileData.map((item) => (item.id === payload.id ? payload : item)),
+      }
+    case types.EDIT_PROFILE_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      }
+    case types.CHANGE_MAIL_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      }
+    case types.CHANGE_MAIL_SUCCESS:
+      // console.log(payload);
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        changeEmail: saveData('changeEmail', payload),
+      }
+    case types.CHANGE_MAIL_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      }
+    case types.EDIT_CHANGE_MAIL_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      }
+    case types.EDIT_CHANGE_MAIL_SUCCESS:
+      console.log(state.changeEmail.map((item) => (item.email === payload.email ? payload : item)))
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        changeEmail: state.changeEmail.map((item) =>
+          item.email === payload.email ? payload : item,
+        ),
+      }
+    case types.EDIT_CHANGE_MAIL_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      }
+    case types.CHANGE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      }
+    case types.CHANGE_PASSWORD_SUCCESS:
+      // console.log(payload);
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        changepassword: saveData('changepassword', payload),
+      }
+    case types.CHANGE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      }
+    case types.EDIT_CHANGE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      }
+    case types.EDIT_CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        changepassword: state.changepassword.map((item) =>
+          item.password === payload.password ? payload : item,
+        ),
+      }
+    case types.EDIT_CHANGE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
       }
     default:
       return state

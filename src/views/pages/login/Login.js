@@ -22,6 +22,7 @@ import { cibFacebook, cibGoogle, cilLockLocked, cilUser } from '@coreui/icons'
 import { useDispatch } from 'react-redux'
 import { LoginUser } from '../../../Redux/Auth/action'
 import { useToast } from '@chakra-ui/react'
+import { LOGIN_SUCCESS } from '../../../Redux/Auth/actionTypes'
 
 const Login = () => {
 //   Positive**–** Successful login with valid credentials.
@@ -59,6 +60,7 @@ const Login = () => {
     }
     dispatch(LoginUser(payload))
     .then((r)=>{
+      if(r.type === LOGIN_SUCCESS){
       navigate("/dashboard")
        localStorage.setItem('rememberedEmail', email)
        localStorage.setItem('rememberedPassword', password)
@@ -70,14 +72,24 @@ const Login = () => {
          isClosable: true,
          position:"top"
        })
+      }
+      else if(r.payload.response.status === 401){
+         toast({
+           title: 'Password is wrong',
+           description: 'write correct password',
+           status: 'error',
+           duration: 2000,
+           isClosable: true,
+           position: 'top',
+         })
+      }
     })
     .catch((e)=>{
-      console.log(e);
       toast({
-        title: 'Login Successfully.',
+        title: 'Login unsuccessfully.',
         description: "We've created your account for you.",
-        status: 'danger',
-        duration: 3000,
+        status: 'error',
+        duration: 2000,
         isClosable: true,
         position: 'top',
       })
@@ -114,9 +126,9 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput
                         type="email"
-                        defaultValue="Mark"
+                        //defaultValue="Mark"
                         feedbackValid="Looks good!"
-                        id="validationCustom01"
+                        // id="validationCustom01"
                         required
                         placeholder="email"
                         autoComplete="email"
@@ -132,9 +144,9 @@ const Login = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         type="password"
-                        defaultValue="Mark"
+                        //defaultValue="Mark"
                         feedbackValid="Looks good!"
-                        id="validationCustom01"
+                        // id="validationCustom01"
                         required
                         placeholder="Password"
                         autoComplete="current-password"

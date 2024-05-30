@@ -51,10 +51,11 @@ const Register = () => {
       email,
       password,
       username,
-      password2,
+      password2
     }
     dispatch(RegisterUser(payload))
       .then((r) => {
+        console.log(r);
         if (r.type === REGISTER_SUCCESS) {
           localStorage.setItem('rememberedemail', email)
           localStorage.setItem('rememberedpassword', password)
@@ -132,7 +133,7 @@ const Register = () => {
                       required
                       // defaultValue="Username"
                       feedbackValid="Looks good!"
-                      id="validationCustom01"
+                      // id="validationCustom01"
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -146,7 +147,7 @@ const Register = () => {
                       required
                       // defaultValue="email"
                       feedbackValid="Looks good!"
-                      id="validationCustom01"
+                      // id="validationCustom01"
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -162,7 +163,7 @@ const Register = () => {
                       required
                       // defaultValue="password"
                       feedbackValid="Looks good!"
-                      id="validationCustom01"
+                      // id="validationCustom01"
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-4">
@@ -178,7 +179,7 @@ const Register = () => {
                       required
                       // defaultValue="password"
                       feedbackValid="Looks good!"
-                      id="validationCustom01"
+                      // id="validationCustom01"
                     />
                   </CInputGroup>
                   <div className="d-grid">

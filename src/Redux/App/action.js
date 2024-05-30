@@ -2,8 +2,7 @@ import * as types from './actionTypes'
 import axios from 'axios'
 const getdiscoverjsl = () => async (dispatch) => {
   dispatch({ type: types.DISCOVER_REQUEST })
-  return await axios
-    .get('http://127.0.0.1:8000/app/discoverjsl/')
+  return await axios.get('http://127.0.0.1:8000/app/discoverjsl/')
     .then((r) => {
       // console.log(r, "discover");
       return dispatch({ type: types.DISCOVER_SUCCESS, payload: r.data })
